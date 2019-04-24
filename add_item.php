@@ -10,15 +10,16 @@ $product_id = $product_data->id;
 $product_name = $product_data->name;
 $product_price = $product_data->price;
 
-if(isset($_SESSION["shopping_cartt"]))
+if(isset($_SESSION["shopping_cart"]))
 {
   $is_available = 0;
-  foreach($_SESSION["shopping_cartt"] as $keys => $values)
+  foreach($_SESSION["shopping_cart"] as $keys => $values)
   {
-    if($_SESSION["shopping_cartt"][$keys]['product_id'] == $product_id)
+    if($_SESSION["shopping_cart"][$keys]['product_id'] == $product_id)
     {
-      $_SESSION["shopping_cartt"][$keys]['product_quantity'] =
-      $_SESSION["shopping_cartt"][$keys]['product_quantity'] + 1;
+      $is_available++;
+      $_SESSION["shopping_cart"][$keys]['product_quantity'] =
+      $_SESSION["shopping_cart"][$keys]['product_quantity'] + 1;
     }
   }
 
@@ -30,7 +31,7 @@ if(isset($_SESSION["shopping_cartt"]))
       'product_price'         =>      $product_price,
       'product_quantity'      =>      1,
     );
-    $_SESSION["shopping_cartes"][] = $item_array;
+    $_SESSION["shopping_cart"][] = $item_array;
   }
 }
 else
@@ -41,7 +42,7 @@ else
     'product_price'         =>      $product_price,
     'product_quantity'      =>      1,
   );
-  $_SESSION["shopping_cartt"][] = $item_Array;
+  $_SESSION["shopping_cart"][] = $item_Array;
 
 }
  ?>
