@@ -1,23 +1,24 @@
-app.controller('shoppingCartController', function($http, $scope) {
+app.controller('shoppingCartController', function($scope, $http) {
     $scope.loadProduct = function(){
       $http.get('fetch.php').success(function(data) {
           $scope.products = data;
-      });
+      })
     };
 
-    $scope.cartes = [];
+    $scope.carts = [];
 
-    $scope.fetchChart = function(){
+    $scope.fetchCart = function(){
       $http.get('fetch_cart.php').success(function(data) {
-            $scope.cartes = data;
-      });
+            $scope.carts = data;
+      })
     };
 
     $scope.setTotals = function() {
         var total = 0;
-        for(var count=0; count < $scope.cartes.length; count++)
+
+        for(var count = 0; count < $scope.carts.length; count++)
         {
-           var item = $scope.cartes[count];
+           var item = $scope.carts[count];
            total = total + (item.product_quantity * item.product_price);
         }
         return total;
@@ -29,7 +30,17 @@ app.controller('shoppingCartController', function($http, $scope) {
           url: "add_item.php",
           data: product
         }).success(function(data) {
-            $scope.fetchChart();
+            $scope.fetchCart();
         });
+    };
+
+    $scope.removeItem = function(id) {
+      $http({
+        method: "POST",
+        url: "remove_item.php",
+        data:id
+      }).success(function(data){
+        $scope.fetchCart();
+      });
     };
 });
